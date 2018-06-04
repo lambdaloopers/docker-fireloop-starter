@@ -1,0 +1,27 @@
+version: '3.6'
+
+services:
+  fireloop:
+    build:
+      args:
+        - USER_ID=${USER_ID}
+        - GROUP_ID=${GROUP_ID}
+      context: .
+      dockerfile: ./docker/development/Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./app:/home/nodejs
+    command: bash -c "cd fireloop && npm install && cd server && node server.js"
+  webapp:
+    build:
+      args:
+        - USER_ID=${USER_ID}
+        - GROUP_ID=${GROUP_ID}
+      context: .
+      dockerfile: ./docker/development/Dockerfile
+    ports:
+      - "80:4200"
+    volumes:
+      - ./app:/home/nodejs
+    command: bash -c "cd webapp && npm install && npm start"
